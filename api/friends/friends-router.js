@@ -9,14 +9,12 @@ router.get('/:friends_id', (req, res, next) => {
         .catch(next)
 })
 
-router.use('*', (req, res, ) => {
-    res.json({api: "up"})
-})
+
 
 router.use((err, req, res, next) => { // eslint-disable-line
     res.status(500).json({
+        customMessage: "something went wrong in the friends router",
         message: err.message,
-        error: err.error,
         stack: err.stack
     })
 })
