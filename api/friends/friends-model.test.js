@@ -1,6 +1,6 @@
-const request = require('supertest');
+
 const db = require('../../data/db-config');
-const server = require('../server');
+const Friend = require('./friends-model');
 
 friend7 = {friend_name: "Gunther"}
 friend8 = {friend_name: "Janice"}
@@ -25,4 +25,19 @@ test('correct env var', () => {
 
 describe('db access functions', () => {
     
+    describe('Friend.getAll', () => {
+        test('resolves to an array of 6 friends', async () => {
+            const friends = await Friend.getAll()
+            expect(friends.length).toBe(6)
+            expect(friends).toHaveLength(6)
+        })
+        test('resolves to correct object shapes', async () => {
+            const friends = await Friend.getAll()
+            expect(friends[0]).toHaveProperty('friend_id', 1)
+            expect(friends[0]).toHaveProperty('friend_name', 'Chandler')
+
+            expect(friends[1]).toMatchObject({ friend_id: 2, friend_name: "Joey"})
+            expect(friends[2]).toMatchObject({ friend_id: 3, friend_name: "Monica"})
+        })
+    })
 })
