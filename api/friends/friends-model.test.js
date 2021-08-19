@@ -70,7 +70,9 @@ describe('db access functions', () => {
             expect(newDb).toHaveLength(6)
         })
         test('returns removed friend from table', async () => {
-
+            await db('friends').insert(friend7)
+            let deletedFriend = await request(server).delete("/api/friends/7")
+            expect(deletedFriend.body).toMatchObject({ friend_name: "Gunther" })
         })
     })
 })
