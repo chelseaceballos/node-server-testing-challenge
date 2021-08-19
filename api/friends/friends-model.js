@@ -4,21 +4,21 @@ function getAll(){
      return db('friends')
 }
 
- function getFriendById(friend_id){
-    return db('friends').where('friend_id', friend_id).first()
+ function getFriendById(id){
+    return db('friends').where('friend_id', id).first()
  }
 
  async function insert(friend) {
-    return db('friends')
-    .insert(friend)
-    .then(([friend_id]) => {
-      return getFriendById(friend_id)
-    })
+    const [id] = await db('friends').insert(friend)
+    return db('friends').where('friend_id', id).first()
   }
 
-  function remove(friend_id) {
-    return null
-  }
+
+  const remove = async (id) => {
+    const friendName = await db('friends').where('friend_id', id).first()
+    await db('friends').where('friend_id', id).del()
+    return friendName
+ }
 
  module.exports = {
      getFriendById,
