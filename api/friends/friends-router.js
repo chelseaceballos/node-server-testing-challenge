@@ -19,13 +19,13 @@ router.get('/:friends_id', (req, res, next) => {
         .catch(next)
 })
 
-function validateName(req, res, next) {
-    if (!req.body.friend_name || !req.body.friend_name.trim()){
-      res.status(422).end()
-    } else {
-      next()
-    }
-  }
+        function validateName(req, res, next) {
+            if (!req.body.friend_name || !req.body.friend_name.trim()){
+            res.status(422).end()
+            } else {
+            next()
+            }
+        }
 
 router.post('/', validateName, async (req, res, next) => {
     try {
@@ -39,7 +39,7 @@ router.post('/', validateName, async (req, res, next) => {
 
 router.delete('/:id', async (req, res, next) => {
     const { id } = req.params
-       const remove = await remove.deleteChar(id)
+       const remove = await Friend.remove(id)
        res.status(200).json(remove)
        next()
     })

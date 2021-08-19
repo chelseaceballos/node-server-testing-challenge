@@ -1,7 +1,8 @@
 
 const db = require('../../data/db-config');
 const Friend = require('./friends-model');
-const { notify } = require('./friends-router');
+const server = require('../server')
+const request = require('supertest')
 
 friend7 = {friend_name: "Gunther"}
 friend8 = {friend_name: "Janice"}
@@ -42,7 +43,7 @@ describe('db access functions', () => {
         })
     })
     
-    describe("Friends.insert", () => {
+    describe("Friend.insert", () => {
         test('Adds a friend to table', async () => {
             //get friend using insert
             // assert new friend on db or that db have new length
@@ -55,6 +56,21 @@ describe('db access functions', () => {
             const gunther = { friend_name: "Gunther" }
             const newFriend = await Friend.insert(gunther)
             expect(gunther).toMatchObject({ friend_name: "Gunther" })
+        })
+    })
+
+    describe('Friend.remove', () => {
+        test('removes a friend from table', async () => {
+            const [friend_id] = await db('friends').insert(friend7)
+
+            let friend = await db('friends')
+            expect(friend).toHaveLength(7)
+            await request(server).delete("/api/friends/" + friend_id)
+            let newDb = await db('friends')
+            expect(newDb).toHaveLength(6)
+        })
+        test('returns removed friend from table', async () => {
+
         })
     })
 })
