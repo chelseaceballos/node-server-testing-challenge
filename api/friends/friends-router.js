@@ -24,7 +24,7 @@ router.post('/', /*validateName,*/ async (req, res, next) => {
     //201 OK new friend
 })
 
-server.delete("/:friend_id", (req, res, next) => {
+router.delete("/:friend_id", (req, res, next) => {
     res.end()
     // 200 OK
   });
